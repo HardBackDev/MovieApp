@@ -1,0 +1,119 @@
+<section *ngIf="isChoosingDirector" class="choose-director-modal">
+  <h1>
+      Choose Director to movie
+  </h1>
+  <button style="position: absolute; left: 10%; right: 80%;" class="btn btn-danger" (click)="isChoosingDirector = false;">Cancel</button>
+  <input #directorName style="position: absolute; left: 70%; background-color: rgb(0, 39, 20); color: white;" placeholder="search by name"
+  (keydown.enter)="chooseDirector(directorName.value)">
+  <div class="row" style="align-items: center; align-content: center; display: list-item;" *ngFor="let director of directors">
+    <img src="{{director.photoUrl}}" style="height: 250px; width: 250px; border-radius: 50%; cursor: pointer;" (click)="passDirectorId(director.id)">
+    <h3>{{director.name}}</h3>
+    <hr>
+  </div>
+</section>
+
+
+<div class="container-fluid">
+    <form [formGroup]="movieForm" autocomplete="off" novalidate (ngSubmit)="createMovie(movieForm.value)">
+      <div class="form-card">
+   
+        <div class="row mb-3">
+          <label for="title" class="col-form-label col-md-2">Title: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="title" id="title" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('title') 
+            && hasError('title', 'required')">Title is required</em>
+          </div>
+        </div>
+   
+        <div class="mb-3 row">
+          <label for="description" class="col-form-label col-md-2">description: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="description" id="description" 
+            class="form-control"/>
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('description') 
+            && hasError('description', 'required')">Title is required</em>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label for="directorId" class="col-form-label col-md-2">director Id: </label>
+          <div class="col-md-5">
+            <input #directorInput type="text" formControlName="directorId" id="directorId" 
+            class="form-control"/>
+            <button class="btn btn-success" style="margin-top: 15px;" (click)="chooseDirector()">Choose Director</button>
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('directorId') 
+            && hasError('directorId', 'required')">director id is required</em>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label for="genres" class="col-form-label col-md-2">genres: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="genres" id="genres" 
+            class="form-control"/>
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('genres') 
+            && hasError('genres', 'required')">genres is required</em>
+          </div>
+        </div>
+   
+        <div class="mb-3 row">
+          <label for="photoUrl" class="col-form-label col-md-2">photo Url: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="photoUrl" id="photoUrl" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('photoUrl') 
+            && hasError('photoUrl', 'required')">photo Url is required</em>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="releaseDate" class="col-form-label col-md-2">releaseDate: </label>
+            <div class="col-md-5">
+                <input type="date" formControlName="releaseDate" id="releaseDate" class="form-control" />
+            </div>
+            <div class="col-md-5">
+                <em *ngIf="validateControl('releaseDate') 
+                && hasError('releaseDate', 'required')">releaseDate is required</em>
+            </div>
+        </div>
+
+        <div class="row" style="margin-bottom:15px;">
+            <div class="col-md-3">
+            <input type="file" #file placeholder="Choose file"  (change)="uploadFile(file.files)" style="display:none;" accept=".mp4">
+            <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+            </div>
+            <div class="col-md-4">
+            <span class="upload" *ngIf="progress > 0">
+                {{progress}}%
+            </span>
+            <span class="upload" *ngIf="message">
+                {{message}}
+            </span>
+            </div>
+        </div>
+
+        <br><br>
+   
+        <div class="mb-3 row">
+            <div class="offset-5 col-md-1">
+                <button type="submit" class="btn btn-info" [disabled]="!movieForm.valid || !isUploading" >Save</button>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger" (click)="redirectToMovies()">Cancel</button>
+            </div>
+        </div>
+        
+      </div>
+    </form>
+   
+  </div>

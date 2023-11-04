@@ -1,0 +1,41 @@
+<mat-sidenav-container class="sidenav-container" style="color: aliceblue;">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport  style="background-color: rgb(74, 27, 27);"
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(isHandset$ | async) === false">
+        <mat-toolbar style="background-color: rgb(21, 11, 11); color: aliceblue;">Menu</mat-toolbar>
+        <mat-nav-list >
+        <a mat-list-item [routerLink]="''">
+            <p style="color: white;">Movies</p>
+        </a>
+        <a mat-list-item [routerLink]="'actors'">
+            <p style="color: white;">Actors</p>
+        </a>
+        <a mat-list-item [routerLink]="'directors'">
+            <p style="color: white;">Directors</p>
+        </a>
+        <a mat-list-item [routerLink]="'moviesToWatch'">
+            <p style="color: white;">Movies To Watch</p>
+        </a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content style="background-color: rgb(87, 89, 90); overflow-x: hidden;">
+        <mat-toolbar color="primary" style="background-color: black; color: aliceblue; box-shadow: 5px 5px 10px 2px rgba(0,0,0,.4);">
+        <button
+            type="button"
+            aria-label="Toggle sidenav"
+            mat-icon-button
+            (click)="drawer.toggle()"
+            *ngIf="isHandset$ | async">
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span>MovieAppClient</span>
+        <span style="margin-left: 80%; cursor: pointer;" [routerLink]="'auth'">Sign-up</span>
+        <span *ngIf="authService.isUserAuthenticated()" style="margin-left: 1%; cursor: pointer;" (click)="logOut()">Log-out</span>
+        <span *ngIf="!authService.isUserAuthenticated()" style="margin-left: 2%; cursor: pointer;" [routerLink]="'login'">Login</span>
+        </mat-toolbar>
+        <router-outlet style="height: 100%;"></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+  

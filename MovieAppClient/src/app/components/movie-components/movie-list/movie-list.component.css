@@ -1,0 +1,110 @@
+#movies-section {
+  margin-left: 4.5%;
+  width: 60%;
+  display: flex; 
+  flex-direction: column; 
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateX(-100%); 
+}
+
+.grid-container {
+  margin: 5px;
+  display: grid;
+  grid-template-columns: repeat(3, 50%);
+  justify-content: left;
+  gap: 30px;
+  padding: 30px;
+  border-width: 10px;
+  border-color: #000;
+}
+
+.grid-container > div {
+  border: 5px solid rgb(53, 49, 49);
+  background-color: rgb(37, 21, 21);
+  box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
+  color: white;
+  height: 600px;
+  padding: 5px;
+  font-size: 15px;
+  overflow: hidden;
+}
+
+.page-button {
+  background-color: rgb(54, 54, 49);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border-width: 0px;
+  border-color: black;
+  font-size: 40px;
+  text-align: center;
+  position: fixed;
+}
+
+.page-input {
+  border: solid 1px var(--primary-color);
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 4px;
+  display: inline-block;
+  width: 60px;
+  color: aliceblue;
+  background-color: rgba(24, 19, 19, 0.845);
+}
+
+.search-input[type="text"] {
+  border: solid 1px var(--primary-color);
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 4px;
+  display: inline-block;
+  width: 30%;
+  color: aliceblue;
+  background-color: rgba(24, 19, 19, 0.845);
+}
+
+.search-button {
+  padding: 10px;
+  border: solid 1px var(--primary-color);
+  background: var(--primary-color);
+  color: rgb(68, 66, 66);
+  background-color: rgb(11, 15, 11);
+  border-radius: 8px;
+  color: aliceblue;
+  font-size: large;
+}
+
+.actor-link:hover {
+  color: blue;
+  cursor: pointer;
+}
+
+.movie-delete-modal{
+  background-color: rgb(4, 61, 29); 
+  width: 30%;
+  height: 45%; 
+  left: 35%; 
+  top: 27.5%; 
+  position: absolute; 
+  z-index: 4;
+  position: fixed;
+  text-align: center;
+  border: solid 4px black;
+}
+
+.loader {
+  border: 10px solid #201d1d;
+  border-top: 10px solid #2e101080;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

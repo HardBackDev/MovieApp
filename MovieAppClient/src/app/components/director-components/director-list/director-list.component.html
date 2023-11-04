@@ -1,0 +1,23 @@
+<button *ngIf="auth.isUserAdmin()" class="btn btn-success" style="margin: 3%; position: absolute; position: fixed;" [routerLink]="'/create/director'">Create</button>
+<form style="margin-top: 10px; margin-left: 15%;">
+    <input class="search-input" type="text" placeholder="Search by name" #filter (keydown.enter)="searchDirectors(filter.value, $event)">
+    <button class="primary search-button" type="button" (click)="searchDirectors(filter.value, $event)">Search</button>
+</form>
+
+<div id="directors-container" class="container" style="overflow-y: hidden;">
+    <div *ngFor="let director of directors" class="row director-row">
+        <div style="background-color: rgb(83, 83, 68); width: fit-content; padding: 10px; border-radius: 10%; cursor: pointer; height: 420px;" 
+        [routerLink]="[director.id]">
+            <img src="{{director.photoUrl}}" style="border-radius: 50%; height: 400px; width: 300px;">
+        </div>
+        <div class="col">
+            <h1 style="font-size: 50px; text-align: center;">{{director.name}}</h1>
+            <button *ngIf="auth.isUserAdmin()" style="margin-left: 40%;" class="btn btn-danger" (click)="deleteDirector(director.id)">Delete</button>
+            <button *ngIf="auth.isUserAdmin()" style="margin-left: 40px;" class="btn btn-success" [routerLink]="['/update/director', director.id]">Update</button>
+            <hr>
+            <h1 style="text-align: center;">Biography:</h1>
+            <h2>{{director.bio}}</h2>
+        </div>
+    </div>
+    <div *ngIf="isLoading" id="loading-element" class="loader" style="margin-left: 49%;"></div>
+</div>

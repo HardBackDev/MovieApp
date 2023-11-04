@@ -1,0 +1,20 @@
+<button class="btn btn-success" style="margin: 30px; position: absolute;" [routerLink]="['/movies', movieId]">back</button>
+
+<form style="margin-top: 10px; margin-left: 15%;">
+    <input class="search-input" type="text" placeholder="Search by name" #filter (keydown.enter)="searchActors(filter.value, $event)">
+    <button class="primary search-button" type="button" (click)="searchActors(filter.value, $event)">Search</button>
+</form>
+
+<div class="grid-container"  style="margin-top: 20px; margin-left: 7%; min-height: 700px;">
+    <div *ngFor="let actor of actors">
+        <div >
+            <img  src="{{actor.photoUrl}}" style="height: 250px; width: 200px;"
+            [routerLink]="['/movies', actor.id]">
+            <hr>
+            <h1 style="text-align: center;">{{actor.name}}</h1>
+            <hr>
+            <button *ngIf="!actorsInMovie.includes(actor.id)" class="btn btn-success" style="margin-left: 40%;" (click)="addActorRelation(actor.id)">Add</button>
+            <button *ngIf="actorsInMovie.includes(actor.id)" class="btn btn-success" style="margin-left: 13%;" disabled="true">already in movie</button>
+        </div>
+    </div>
+</div>

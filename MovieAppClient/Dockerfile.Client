@@ -1,0 +1,12 @@
+FROM node:16 AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+RUN npm install -g @angular/cli
+COPY . .
+RUN ng build --configuration=docker --output-path=dist/movie-app-client
+
+FROM nginx:latest
+COPY --from=build /app/dist/movie-app-client /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

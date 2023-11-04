@@ -1,0 +1,123 @@
+
+<div class="container">
+    <section style="display: flex">
+        <section *ngIf="movie"  style="width: 70%;" class="content-container">
+            <div style="display: flex;">
+                <img src="{{movie.photoUrl}}" style="width: 300px; height: 400px;"/>
+                <section style="margin-left: 10px;">
+                    <h1 style="text-align: center;">{{movie.title}}</h1>
+                    <hr>
+                    <h2>Description:</h2> 
+                    <h3>{{movie.description}}</h3>
+                    <hr>
+                    <h2>Genres:</h2> 
+                    <h3>{{movie.genres}}</h3>
+                </section>
+            </div>
+            <hr>
+            <div class="row" style="padding: 5px; padding-left: 10px; display: flex">
+                <div style="width: 310px;">
+                    <h1 style="color: rgb(12, 239, 12);">Likes: {{movie.goodRating}}</h1>
+                    <h1 style="color: red">DisLikes: {{movie.badRating}}</h1>
+                    <h1 style="color: blue">Number of ratings: {{movie.badRating + movie.goodRating}}</h1>
+                </div>
+                <div class="col" style="display: flex; height: fit-content;">
+                    <div *ngIf="auth.isUserAuthenticated()">
+                        <button *ngIf="movieRate == null || movieRate.rate != 'like'" class="btn btn-success" style="margin-left: 30px;"
+                         (click)="likeMovie()">like movie</button>
+                        <button *ngIf="movieRate != null && movieRate.rate == 'like'" class="btn btn-info"
+                         style="background-color: #a3a3a3; margin-left: 30px" (click)="unRateMovie()">liked</button>
+                        <button *ngIf="movieRate == null || movieRate.rate != 'dislike'" class="btn btn-danger"
+                         style="margin-left: 30px;" (click)="disLikeMovie()">dislike movie</button>
+                        <button *ngIf="movieRate != null && movieRate.rate == 'dislike'" class="btn btn-info"
+                         style="margin-left: 30px; background-color: #a3a3a3;" (click)="unRateMovie()">disliked</button>
+                    </div>
+                    <button class="btn btn-success" style="margin-left: 30px;" [routerLink]="''">back</button>
+                </div>
+                <button *ngIf="!movieInWatching && auth.isUserAuthenticated()" class="btn btn-success" (click)="addToWatching()">Add to watching</button>
+                <button *ngIf="movieInWatching" class="btn btn-success" (click)="deleteFromWatching()">Remove from watching</button>
+            </div>
+        </section>
+        <section *ngIf="director" class="content-container" style="margin-left: 5%; height: fit-content;">
+            <h1>Director:</h1>
+                <img src="{{director.photoUrl}}" style="width: 240px; height: 280px; cursor: pointer;" [routerLink]="['/directors', director.id]"/>
+                <hr>
+                <h2 style="text-align: center;">{{director.name}}</h2>
+        </section>   
+    </section>
+    <hr>
+    <div class="row">
+        <div>
+            <button style="margin-left: 46%;" *ngIf="auth.isUserAdmin()" class="btn btn-success" [routerLink]="'addActor'">Add Actor</button>
+            <h1 style="text-align: center;">Actors:</h1>
+            <div *ngIf="actorsLoading" id="loading-element" class="loader" style="margin-left: 47%;"></div>
+        </div>
+
+        <div *ngIf="actors" class="col content-container" style="overflow-x: scroll;" (scroll)="actorsScroll($event)">
+            <div style="display: flex; white-space: nowrap; padding: auto;">
+                <section *ngFor="let actor of actors" 
+                style="width: 235px; padding: 5px; border: 3px solid #181717; " >
+                    <img src="{{actor.photoUrl}}" style="height: 250px; width: 220px; cursor: pointer;" [routerLink]="['/actors', actor.id]">
+                    <hr>
+                    <p style="text-align: center; font-size: large;">{{actor.name}}</p>
+                </section>
+            </div>
+        </div>          
+    </div>
+    <hr>
+
+    <div *ngIf="videoURL" class="row content-container">
+
+        <video
+            id="my-video"
+            class="video-js"
+            controls
+            preload="auto"
+            height="720"
+            data-setup="{}"
+            >
+            <source src="{{videoURL}}" type="video/mp4" />
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a
+                web browser that
+                <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+            </p>
+        </video>
+
+    </div>
+
+    <div class="row content-container">
+        <h1 style="text-align: center;">Comments:</h1>
+        <form *ngIf="auth.isUserAuthenticated()">
+            <input id="comment-input" class="comment-input" type="text" placeholder="Add comment. max length 500" style="margin-left: 10px;" #commentText
+                *ngIf="auth.isUserAuthenticated()" (input)="checkCommentLessThan500($event)" (keydown.enter)="addComment($event);">
+            <button class="add-button" type="button" (click)="addComment($event);">Add</button>    
+        </form>
+        <hr style="margin-top: 10px;">
+        <section *ngFor="let comment of comments"  
+        style="padding: 15px; margin-top: 10px; min-width: 200px; border: 3px solid #181717; background-color: rgb(39, 45, 50); height: fit-content;
+        width: 100%;" >
+            <div style="display: flex; ">
+                <h2>{{comment.dateAdded.toString().replace('T', ' ')}}</h2>
+                <form *ngIf="auth.getUserName() == comment.userName || auth.isUserAdmin()" style="margin-right: 0px; margin-left: auto;">
+                    <button class="btn btn-danger" type="button" (click)="deleteComment($event, comment.id)">delete</button>
+                    <button class="btn btn-info" type="button" style="margin-left: 10px;" (click)="editingCommentId = comment.id">Edit</button>
+                </form>
+            </div>
+            <h1>{{comment.userName}}:</h1>
+            <hr>
+            <div style="font-size: large; height: fit-content; word-wrap: break-word;">
+                <section *ngIf="comment.id != editingCommentId" >{{comment.text}}</section>
+
+            </div>
+            <form *ngIf="comment.id == editingCommentId">
+                <input id="comment-edit" class="comment-input" type="text" placeholder="Edit comment. max length 500" style="margin-left: 10px;" #commentEdit
+                (keydown.enter)="editComment($event, comment.id, commentEdit.value)" value="{{comment.text}}" (input)="checkCommentLessThan500($event)">
+                <button class="btn btn-success" type="button" (click)="editComment($event, comment.id, commentEdit.value)">Edit</button>
+                <button class="btn btn-danger" type="button" style="margin-left: 15px;" (click)="editingCommentId = null">Cancel</button>
+            </form>
+
+        </section>
+        <div *ngIf="commentsLoading" id="loading-element" class="loader" style="margin-left: 49%;"></div>
+    </div>
+</div>

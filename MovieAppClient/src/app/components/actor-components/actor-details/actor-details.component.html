@@ -1,0 +1,26 @@
+<div *ngIf="isLoading" id="loading-element" class="loader" style="margin-left: 49%; margin-top: 25%;"></div>
+
+<div *ngIf="!isLoading" id="actors-container" class="container" style="overflow-y: hidden;">
+    <div class="row actor-row">
+        <div style="background-color: rgb(83, 83, 68); width: fit-content; padding: 10px; border-radius: 10%; cursor: pointer; height: 420px">
+            <img src="{{actor.photoUrl}}" style="border-radius: 50%; height: 400px; width: 300px;">
+        </div>
+        <div class="col">
+            <h1 style="font-size: 50px; text-align: center;">{{actor.name}}</h1>
+            <hr>
+            <h1 style="text-align: center;">Biography:</h1>
+            <h2>{{actor.bio}}</h2>
+        </div>
+        <hr style="margin-top: 10px;">
+        <h1 style="font-size: 50px; text-align: center;">Starred in:</h1>
+        <div class="grid-container"  style="margin-top: 20px;">
+            <div *ngFor="let movie of movies">
+                <img src="{{movie.photoUrl}}" style="height: 350px; width: 250px; cursor: pointer;"
+                [routerLink]="['/movies', movie.id]">
+                <hr>
+                <h1 style="text-align: center;">{{movie.title}}</h1>
+            </div>
+        </div>
+    </div>
+    
+</div>

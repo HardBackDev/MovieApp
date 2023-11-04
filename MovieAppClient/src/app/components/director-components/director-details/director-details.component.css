@@ -1,0 +1,47 @@
+.director-row{
+    margin: 20px; 
+    padding: 10px; 
+    border: solid 5px black; 
+    border-radius: 10px; 
+    background-color: rgb(31, 35, 39); 
+    display: flex;
+    box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
+    overflow-y: hidden;
+
+}
+
+.grid-container {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content:left;
+    gap: 30px;
+    padding: 30px;
+    border-width: 10px;
+    border-color: #000;
+  }
+  
+  .grid-container > div {
+    border: 5px solid rgb(0, 0, 0);
+    background-color: rgb(12, 8, 37);
+    color: white;
+    padding: 15px;
+    font-size: 15px;
+    overflow: hidden;
+  }
+
+.loader {
+    border: 10px solid #201d1d;
+    border-top: 10px solid #2e101080;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite;
+    overflow-y: hidden;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  

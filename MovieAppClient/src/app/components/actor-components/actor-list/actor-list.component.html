@@ -1,0 +1,23 @@
+<button *ngIf="auth.isUserAdmin()" class="btn btn-success" style="margin: 3%; position: absolute; position: fixed;" [routerLink]="'/create/actor'">Create</button>
+<form style="margin-top: 10px; margin-left: 15%;">
+    <input class="search-input" type="text" placeholder="Search by name" #filter (keydown.enter)="searchActors(filter.value, $event)">
+    <button class="primary search-button" type="button" (click)="searchActors(filter.value, $event)">Search</button>
+</form>
+
+<div id="actors-container" class="container" style="overflow-y: hidden;">
+    <div *ngFor="let actor of actors" class="row actor-row">
+        <div style="background-color: rgb(83, 83, 68); width: fit-content; padding: 10px; border-radius: 10%; cursor: pointer; height: 420px;" 
+        [routerLink]="[actor.id]">
+            <img src="{{actor.photoUrl}}" style="border-radius: 50%; height: 400px; width: 300px;">
+        </div>
+        <div class="col">
+            <h1 style="font-size: 50px; text-align: center;">{{actor.name}}</h1>
+            <button *ngIf="auth.isUserAdmin()" style="margin-left: 40%;" class="btn btn-danger" (click)="deleteActor(actor.id)">Delete</button>
+            <button *ngIf="auth.isUserAdmin()" style="margin-left: 40px;" class="btn btn-success" [routerLink]="['/update/actor', actor.id]">Update</button>
+            <hr>
+            <h1 style="text-align: center;">Biography:</h1>
+            <h2>{{actor.bio}}</h2>
+        </div>
+    </div>
+    <div *ngIf="isLoading" id="loading-element" class="loader" style="margin-left: 49%;"></div>
+</div>

@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <form [formGroup]="userLoginForm" autocomplete="off" novalidate (ngSubmit)="loginUser(userLoginForm.value)">
+      <div class="form-card">
+        <h2 class="form-signin-heading">Login</h2>
+        <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
+  
+        <div class="row mb-3">
+          <label for="userName" class="col-form-label col-md-2">username: </label>
+          <div class="col-md-5">
+            <input type="email" formControlName="userName" id="userName" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('userName') 
+            && hasError('userName', 'required')">username is required</em>
+          </div>
+        </div>
+  
+        <div class="mb-3 row">
+            <label for="password" class="col-form-label col-md-2">password: </label>
+            <div class="col-md-5">
+                <input type="password" formControlName="password" id="password" class="form-control" />
+            </div>
+            <div class="col-md-5">
+                <em *ngIf="validateControl('password') 
+                && hasError('password', 'required')">password is required</em>
+            </div>
+        </div>
+  
+        <br><br>
+    
+        <div class="mb-3 row">
+            <div class="offset-5 col-md-1">
+                <button type="submit" class="btn btn-info" [disabled]="!userLoginForm.valid" >Login</button>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger" (click)="redirectToHome()">Cancel</button>
+            </div>
+        </div>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,63 @@
+<div class="container-fluid">
+    <form [formGroup]="directorForm" autocomplete="off" novalidate (ngSubmit)="updateDirector(directorForm.value)">
+      <div class="form-card">
+   
+        <div class="row mb-3">
+          <label for="name" class="col-form-label col-md-2">name: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="name" id="name" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('name') 
+            && hasError('name', 'required')">name is required</em>
+          </div>
+        </div>
+   
+        <div class="mb-3 row">
+          <label for="bio" class="col-form-label col-md-2">bio: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="bio" id="bio" 
+            class="form-control"/>
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('bio') 
+            && hasError('bio', 'required')">bio is required</em>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="age" class="col-form-label col-md-2">age: </label>
+            <div class="col-md-5">
+              <input type="number" formControlName="age" id="age" class="form-control" />
+            </div>
+            <div class="col-md-5">
+              <em *ngIf="validateControl('age') 
+              && hasError('age', 'required')">age is required</em>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label for="photoUrl" class="col-form-label col-md-2">photoUrl: </label>
+          <div class="col-md-5">
+            <input type="text" formControlName="photoUrl" id="photoUrl" 
+            class="form-control"/>
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('photoUrl') 
+            && hasError('photoUrl', 'required')">photoUrl is required</em>
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="offset-5 col-md-1">
+                <button type="submit" class="btn btn-info" [disabled]="!directorForm.valid" >Save</button>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger" (click)="redirectToDirectors()">Cancel</button>
+            </div>
+        </div>
+        
+      </div>
+    </form>
+   
+  </div>

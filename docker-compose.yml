@@ -1,0 +1,36 @@
+
+version: '3.0'
+services:
+   db:
+     image: postgres
+     environment:
+      POSTGRES_PASSWORD: postgres_password
+     ports:
+       - "5432:5432"
+     restart: always
+   movieapp:
+     depends_on:
+       - db
+     image: myproject/movieapp:runtime
+     build:
+       context: .
+       dockerfile: Dockerfile
+     ports:
+       - "8080:5000"
+       - "8081:5001"
+     environment:
+       - ASPNETCORE_ENVIRONMENT=Docker
+       - ASPNETCORE_Kestrel__Certificates__Default__Password=bebra_password_0511
+       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/cert.pfx
+     volumes: 
+       - ${USERPROFILE}/.aspnet/https:/https/ 
+   bookappclient:
+     depends_on:
+       - movieapp
+     image:  myproject/movieappclient:runtime
+     build:
+       context: ./MovieAppCLient
+       dockerfile: Dockerfile.Client
+     ports:
+       - "8082:80"
+

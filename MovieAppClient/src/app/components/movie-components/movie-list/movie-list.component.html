@@ -1,0 +1,108 @@
+<button *ngIf="metadata && metadata.HasNext" [disabled]="isLoading" class="page-button" style="left: 96%; top: 45%;" 
+(click)="changePage('right')">></button>
+<button *ngIf="metadata && metadata.HasPrevious" [disabled]="isLoading" class="page-button" style="margin-left: 20px; top: 45%;" 
+(click)="changePage('left')"><</button>
+
+<section *ngIf="isConfirmDelete" style="height: 100%; width: 100%; z-index: 3; position: absolute; position: fixed; background-color: rgb(32, 29, 29);
+opacity: 0.6;">   
+</section>
+<section *ngIf="isConfirmDelete" class="movie-delete-modal">
+    <h1>
+        You sure want delete this movie? 
+    </h1>
+    <h1>{{movieToDelete.title}}</h1>
+    <img src="{{movieToDelete.photoUrl}}" width="150px" height="200px">
+    <section style="display: flex; margin-top: 30px;">
+        <button style="margin-left: 30%;" class="btn btn-success" (click)="deleteMovie(movieToDelete.id)">Yes, delete</button>
+        <button style="margin-left: 30px;" class="btn btn-danger" (click)="isConfirmDelete = false; movieToDelete = null">Cancel</button>
+    </section>
+</section>
+
+
+<div class="row">
+    <form style="margin-top: 10px; margin-left: 5%;">
+        <input class="search-input" type="text" placeholder="Search by title" #filter (keydown.enter)="searchMovies(filter.value, $event)">
+        <button class="primary search-button" type="button" (click)="searchMovies(filter.value, $event)">Search</button>
+        <a style="font-size: 20px; margin-left: 10px;">Current page: </a>
+        <input id="page-input" value="1" class="page-input" type="number" #pageNumber 
+        (keydown.enter)="setPage(pageNumber.value, $event)" (input)="onInputPageChange($event)">
+        <button class="primary search-button" type="button" (click)="setPage(pageNumber.value, $event)">Set</button>
+
+        <div *ngIf="!isLoading" class="dropdown" style="margin-left: 10px; padding-top: 2px; z-index: 2;">
+            <div class="dropdown-select" (click)="toggleDropdown()">
+                Select Genres
+            </div>
+            <div class="dropdown-list" [ngClass]="{'show': isDropdownOpen }">
+                <div class="option" [ngClass]="{'selected': isSelected('Horror')}" (click)="toggleOption('Horror')">Horror</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Thriller')}" (click)="toggleOption('Thriller')">Thriller</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Drama')}" (click)="toggleOption('Drama')">Drama</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Romance')}" (click)="toggleOption('Romance')">Romance</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Adventure')}" (click)="toggleOption('Adventure')">Adventure</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Sci-Fi')}" (click)="toggleOption('Sci-Fi')">Sci-Fi</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Action')}" (click)="toggleOption('Action')">Action</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Crime')}" (click)="toggleOption('Crime')">Crime</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Comedy')}" (click)="toggleOption('Comedy')">Comedy</div>
+            </div>
+        </div>
+
+        <button class="primary search-button" style="margin-left: 5%;" type="button" (click)="getMostLiked($event)">Most liked</button>
+
+        <button *ngIf="authService.isUserAdmin()" class="btn btn-success" style="margin: 10px;" [routerLink]="'create/movie'">Create Movie</button>
+        
+        <a *ngIf="isLoading">
+            <a style="margin-left: 50px; font-size: 20px; display: inline-block; color: aliceblue;">Loading: </a>
+            <div id="loading-element" class="loader" style="display: inline-block; position: absolute; margin-left: 10px;"></div>
+        </a>
+    </form>
+    <form style="margin-top: 10px; margin-left: 5%;">
+        <a style="font-size: 20px; margin-left: 10px;">Date Release Between: </a>
+        <input class="page-input" style="width: fit-content;" type="date" id="minDate" #minDate>
+        <a style="font-size: 20px; margin-left: 5px; margin-right: 10px;">and</a>
+        <input class="page-input" style="width: fit-content;" type="date" id="maxDate" #maxDate>
+        <button class="search-button" type="button" (click)="filterByReleaseDate()">Set</button>
+        <button class="search-button" type="button" style="margin-left: 10px;"
+        (click)="minDate.value = '0001-01-01'; maxDate.value = '9999-12-31'; filterByReleaseDate()">Reset</button>
+    </form>
+</div>
+
+<section id="movies-section" style="min-height: 300px;">
+    <div class="grid-container">
+        <div *ngFor="let movie of movies">
+            <div style="display: flex; ">
+                <img src="{{movie.photoUrl}}" style="height: 300px; width: 200px;" alt="Example Image">
+                <div style="margin-left: 8px; width: 100%;">
+                    <h2>{{movie.title}}</h2>
+                    <hr>
+                    <h2>Genres: </h2> <a>{{movie.genres}}</a>
+                    <hr>
+                    <section *ngIf="movie.actors != null && movie.actors[0] != null">
+                        <h2>Actors: </h2>
+                        <p *ngFor="let actor of movie.actors" [routerLink]="['/actors', actor.id]" class="actor-link">{{actor.name}}</p>
+                    </section>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col" style="margin-left: 30px; color: rgb(0, 255, 0); font-size: large;">
+                    <h2>Likes:</h2>
+                    <p>{{movie.goodRating}}</p>
+                </div>
+                <div class="col" style="margin-left: 30px; color: red;">
+                    <h2>DisLikes:</h2>
+                    <p>{{movie.badRating}}</p>
+                </div>
+            </div>
+            <hr>
+            <div style="margin-left: 8px;">
+                <div style="text-align: center;">
+                    <button class="btn btn-info" [routerLink]="['movies', movie.id]" style="text-align: center;">Details</button>
+                    <button *ngIf="authService.isUserAdmin()" class="btn btn-danger" style="margin-left: 10px;" 
+                    (click)="movieToDelete = movie; isConfirmDelete = true;">Delete</button>
+                    <button *ngIf="authService.isUserAdmin()" class="btn btn-success" style="margin-left: 10px;" [routerLink]="['update/movie', movie.id]">Update</button>
+                </div>
+            </div>
+            <hr>
+            <h1 style="text-align: center;">Release date: {{movie.releaseDate.substring(0,10)}}</h1>
+        </div>
+    </div>
+</section>

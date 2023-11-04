@@ -1,0 +1,49 @@
+
+<div class="row">
+    <form style="margin-top: 10px; margin-left: 5%;">
+        <input class="search-input" type="text" placeholder="Search by title" #filter (keydown.enter)="searchMovies(filter.value, $event)">
+        <button class="primary search-button" type="button" (click)="searchMovies(filter.value, $event)">Search</button>
+
+        <div *ngIf="!isLoading" class="dropdown" style="margin-left: 10px; padding-top: 2px; z-index: 2;">
+            <div class="dropdown-select" (click)="toggleDropdown()">
+                Select Genres
+            </div>
+            <div class="dropdown-list" [ngClass]="{'show': isDropdownOpen }">
+                <div class="option" [ngClass]="{'selected': isSelected('Horror')}" (click)="toggleOption('Horror')">Horror</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Thriller')}" (click)="toggleOption('Thriller')">Thriller</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Drama')}" (click)="toggleOption('Drama')">Drama</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Romance')}" (click)="toggleOption('Romance')">Romance</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Adventure')}" (click)="toggleOption('Adventure')">Adventure</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Sci-Fi')}" (click)="toggleOption('Sci-Fi')">Sci-Fi</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Action')}" (click)="toggleOption('Action')">Action</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Crime')}" (click)="toggleOption('Crime')">Crime</div>
+                <div class="option" [ngClass]="{'selected': isSelected('Comedy')}" (click)="toggleOption('Comedy')">Comedy</div>
+            </div>
+        </div>
+        
+        <a *ngIf="isLoading">
+            <a style="margin-left: 50px; font-size: 20px; display: inline-block; color: aliceblue;">Loading: </a>
+            <div id="loading-element" class="loader" style="display: inline-block; position: absolute; margin-left: 10px;"></div>
+        </a>
+    </form>
+    <form style="margin-top: 10px; margin-left: 5%;">
+        <a style="font-size: 20px; margin-left: 10px;">Date Release Between: </a>
+        <input class="page-input" style="width: fit-content;" type="date" id="minDate" #minDate>
+        <a style="font-size: 20px; margin-left: 5px; margin-right: 10px;">and</a>
+        <input class="page-input" style="width: fit-content;" type="date" id="maxDate" #maxDate>
+        <button class="search-button" type="button" (click)="filterByReleaseDate()">Set</button>
+        <button class="search-button" type="button" style="margin-left: 10px;"
+        (click)="minDate.value = '0001-01-01'; maxDate.value = '9999-12-29'; filterByReleaseDate()">Reset</button>
+    </form>
+</div>
+
+<div class="grid-container"  style="margin-top: 20px; margin-left: 7%; min-height: 700px;">
+    <div style="text-align: center;" *ngFor="let movie of movies">
+        <img src="{{movie.photoUrl}}" style="height: 350px; width: 250px; cursor: pointer;"
+        [routerLink]="['/movies', movie.id]">
+        <hr>
+        <h1>{{movie.title}}</h1>
+        <hr>
+        <button class="btn btn-danger" (click)="deleteFromWatching(movie.id)">Remove from watching</button>
+    </div>
+</div>

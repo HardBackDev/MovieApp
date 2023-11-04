@@ -1,0 +1,31 @@
+﻿CREATE OR REPLACE FUNCTION update_column_GoodRating()
+RETURNS TRIGGER AS $$
+DECLARE
+	newGoodRating INT;
+BEGIN
+	newGoodRating := OLD.movie_good_rating + NEW.movie_good_rating;
+	NEW.movie_good_rating := newGoodRating;
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER update_column_GoodRating_trigger
+BEFORE UPDATE OF movie_good_rating ON "Movies"
+FOR EACH ROW
+EXECUTE FUNCTION update_column_GoodRating();
+
+CREATE OR REPLACE FUNCTION update_column_BadRating()
+RETURNS TRIGGER AS $$
+DECLARE
+	newBadRating INT;
+BEGIN
+	newBadRating := OlD.movie_bad_rating + NEW.movie_bad_rating;
+	NEW.movie_bad_rating := newBadRating;
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER update_column_BadRating_trigger
+BEFORE UPDATE OF movie_bad_rating ON "Movies"
+FOR EACH ROW
+EXECUTE FUNCTION update_column_BadRating();

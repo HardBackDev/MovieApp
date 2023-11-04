@@ -1,0 +1,68 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+    background-color: rgb(87, 89, 90) !important;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    overflow-x: hidden;
+}
+
+.form-card {
+  background-color: rgb(48, 40, 40); 
+  border-radius: 10px;
+  margin: 50px;
+  padding: 20px;
+  font-size: large;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    border-radius: 10px;
+    background-color: rgb(20, 25, 23);
+    color: rgb(255, 255, 255);
+  }
+  
+  .dropdown-select {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+
+  }
+  
+  .dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    overflow-y: scroll;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    display: none;
+    background-color: rgb(20, 25, 23); 
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+  }
+  
+  .dropdown-list.show {
+    display: block;
+  }
+  
+  .option {
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .selected-options {
+    margin-top: 10px;
+  }
+
+  .option.selected {
+    background-color: #582727; /* Change to your desired color */
+  }
+
+  .option:hover,
+.option.selected:hover {
+    background-color: #5a4f4f; /* Change to your desired hover color */
+}

@@ -1,0 +1,13 @@
+.choose-director-modal{
+    background-color: rgb(4, 61, 29); 
+    width: 50%;
+    height: 85%; 
+    left: 25%; 
+    top: 10%; 
+    position: absolute; 
+    z-index: 4;
+    position: fixed;
+    text-align: center;
+    border: solid 4px black;
+    overflow-y: scroll;
+  }

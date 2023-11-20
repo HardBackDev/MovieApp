@@ -1,4 +1,5 @@
 # MovieApp
+you can browse this project by url: https://moviewatcher.azurewebsites.net
 To start the project, first open and run MovieApp.sln, this will create the database and populate all the tables. Then, through Visual Studio Code, open the MovieAppClient folder and enter "npm install" command in the terminal, this will install all the dependencies. After this you can launch the client application and view the application at url "http://localhost:4200/". in app you can login with existing account with username: "Bob" and password: "Password123" to view administrator abilities or login as user with username: "Tucker" and password: "Password123".
 # Docker
 To start project in docker, in docker-compose.yml file, replace value of ASPNETCORE_Kestrel__Certificates__Default__Password on your certificate password, if you dont know your certificate password, open cmd and write these command one by one 
